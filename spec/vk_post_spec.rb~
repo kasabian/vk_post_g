@@ -1,0 +1,148 @@
+require 'spec_helper'
+
+
+describe VkPostGem::VK do
+  
+  context "initialize"  do
+    
+     it "should be @agent with  Mechanize" do
+       a=VkPostGem::VK.new
+       a.agent.class.should  eq  Mechanize        
+     end
+    
+
+  end
+
+
+ context ".avtorize" do 
+   
+   it "should  rise exceptions with no data" do
+     a=VkPostGem::VK.new
+     expect { a.avtorize }.to raise_error(ArgumentError) 
+   end
+
+   it "should rise exceptions with one argument" do
+     a=VkPostGem::VK.new
+     expect { a.avtorize("pandascorp@mail.ru") }.to raise_error(ArgumentError) 
+   end
+   
+   it "should rise exceptions with invalid argument" do
+     a=VkPostGem::VK.new
+     expect { a.avtorize("pandascorp@mail.ru",56) }.to raise_error(ArgumentError) 
+   end
+
+
+   it "should false with no avtorize" do
+     a=VkPostGem::VK.new
+     a.avtorize("pandascorp@mail.ru","54").should eq false 
+   end
+
+  it "should true with  avtorize" do
+     a=VkPostGem::VK.new
+     a.avtorize("pandascorp@mail.ru","profi0238")
+     a.avt.should eq true 
+   end
+
+   
+ end
+
+  
+  context  ".get_friend_id"  do
+  
+     it "should be avtorize" do
+        a=VkPostGem::VK.new
+     	a.avtorize("pandascorp@mail.ru","profi0238")
+     	a.avt.should eq true   
+     end
+
+    
+      
+     it "should return Array" do
+        a=VkPostGem::VK.new
+     	a.avtorize("pandascorp@mail.ru","profi0238")
+        a.get_friend_id.class.should eq Array
+     end
+    
+ 
+  end
+
+  
+  context ".get_post" do
+
+   it "should  rise exceptions with no data" do
+     a=VkPostGem::VK.new
+     expect { a.get_post }.to raise_error(ArgumentError)
+      
+   end
+     
+   it "should  rise exceptions with invalid argument" do
+     a=VkPostGem::VK.new
+     expect { a.get_post(45.to_i) }.to raise_error(ArgumentError)
+      
+   end
+
+  it "should  not rise exceptions with valid argument" do
+     a=VkPostGem::VK.new
+     expect { a.get_post("iderror5".to_s) }.not_to raise_error(ArgumentError)
+      
+   end
+   
+
+    xit "should  return false if not found wol" do
+     a=VkPostGem::VK.new
+     a.get_post("id555577777").should eq false
+      
+   end
+  
+
+  it "should  return Array if found wol" do
+     a=VkPostGem::VK.new
+     a.get_post("shevchuk_dima").class.should eq Array
+      
+   end
+
+
+  it "should Array de have 3 data" do
+     a=VkPostGem::VK.new
+     a.get_post("shevchuk_dima").size.should eq 3
+      
+   end
+
+
+     
+  end
+
+
+   context ".set_post" do
+      
+   it "should  rise exceptions with no data" do
+     a=VkPostGem::VK.new
+     expect { a.set_post }.to raise_error(ArgumentError) 
+   end
+
+    
+  it "should  rise exceptions with invalid data" do
+     a=VkPostGem::VK.new
+     expect { a.set_post(56,56) }.to raise_error(ArgumentError) 
+   end
+ 
+
+   it "should  return false if not found wol or not posted" do
+       a=VkPostGem::VK.new
+       a.set_post("shevchuk_di34","Post").should eq false
+      
+    end
+  
+
+   xit "should  return true if found wol and set post" do
+       a=VkPostGem::VK.new
+       a.set_post("shevchuk_dima","Ку Ку").should eq true
+   end
+ 
+  
+   
+   
+  
+
+    end
+end
